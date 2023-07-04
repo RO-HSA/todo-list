@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>ToDo List</title>
+</head>
+<body>
+    <div id="todo-content" class="container">
+    </div>
+        <div class="buttons">
+            <div id="addButton" class="btn">Add</div>
+            <div id="deleteButton" class="btn">Delete All</div>
+        </div>
+        <div class="overlay"></div>
+        <div class="modal">
+            <div class="new-item">
+                <form>
+                    <label for="entry-content">Add new item</label>
+                    <textarea id="entry-content" autofocus placeholder="Type your task"></textarea>
+                </form>
+                <button type="submit" id="modal-add">Add</button>
+                <button type="reset" id="modal-cancel">Cancel</button>
+            </div>
+        </div>
+    <script src="./main.js"></script>
+</body>
+</html>
