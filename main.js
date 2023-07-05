@@ -6,17 +6,23 @@ const deleteButton = document.getElementById('deleteButton');
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const content = document.getElementById('todo-content');
-let inputArray = [];
+let contentArray = [];
+let dateArray = [];
+let timeArray = [];
 
-window.onload = insertAllItems();
+window.onload = insertAllItems();   
 
 addFromModal.addEventListener('click', function(e) {
     if (modalContent.value === '') {
         e.preventDefault();
     } else {
-        inputArray.push(modalContent.value);
-        setStorage(inputArray);
+        contentArray.push(modalContent.value);
+        dateArray.push(getDateTime()[0]);
+        timeArray.push(getDateTime()[1]);
+
+        setStorage(contentArray, dateArray, timeArray);
         insertNewItem();
+
         modal.style.display = 'none';
         overlay.style.visibility = 'hidden';
     }
@@ -36,37 +42,50 @@ addButton.addEventListener('click', function() {
 })
 
 deleteButton.addEventListener('click', function() {
-    localStorage.clear();
+    localStorage.removeItem('content');
+    localStorage.removeItem('date');
+    localStorage.removeItem('time');
     content.innerHTML = '';
 })
 
-function setStorage(array) {
-    localStorage.setItem('content', JSON.stringify(array));
+function setStorage(content, date, time) {
+    localStorage.setItem('content', JSON.stringify(content));
+    localStorage.setItem('date', JSON.stringify(date));
+    localStorage.setItem('time', JSON.stringify(time));
 }
 
 function insertNewItem() {
     content.insertAdjacentHTML('beforeend', `<div class="ballon">
                 <div class="content">
                     <p>
-                        ${inputArray[inputArray.length - 1]}
+                        ${contentArray[contentArray.length - 1]}
                     </p>
-                    <time>02/07/2023, 12:00</time>
+                    <time>${getDateTime()[0] + ", " + getDateTime()[1]}</time>
                 </div>
             </div>`);
 }
 
 function insertAllItems() {
     if (localStorage.length !== 0) {
-        inputArray = JSON.parse(localStorage.getItem('content'));
-        for (let i = 0; i < inputArray.length; i++) {
+        contentArray = JSON.parse(localStorage.getItem('content'));
+        dateArray = JSON.parse(localStorage.getItem('date'));
+        timeArray = JSON.parse(localStorage.getItem('time'));
+        
+        for (let i = 0; i < contentArray.length; i++) {
             content.insertAdjacentHTML('beforeend', `<div class="ballon">
                     <div class="content">
                         <p>
-                            ${inputArray[i]}
+                            ${contentArray[i]}
                         </p>
-                        <time>02/07/2023, 12:00</time>
+                        <time>${dateArray[i] + ", " + timeArray[i]}</time>
                     </div>
                 </div>`);
         }
     }
+}
+
+function getDateTime() {
+    const now = new Date();
+
+    return [now.toLocaleDateString('pt-BR'), now.toLocaleTimeString('pt-BR')];
 }
