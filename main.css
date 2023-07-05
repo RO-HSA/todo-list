@@ -78,9 +78,8 @@ time {
     height: 250px;
     width: 500px;
     position: absolute;
-    top: 35%;
-    left: 36.5%;
     display: none;
+    align-self: center;
 }
 
 .overlay{
