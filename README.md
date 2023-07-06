@@ -1,2 +1,2 @@
 # ToDo List
-Aplicação de gerenciamento de lista de tarefas desenvolvida utilizando CSS e JavaScript puros.
+Aplicação de gerenciamento de lista de tarefas simples desenvolvida utilizando CSS e JavaScript puros.
