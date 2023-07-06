@@ -7,8 +7,7 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const content = document.getElementById('todo-content');
 let contentArray = [];
-let dateArray = [];
-let timeArray = [];
+let dateTimeArray = [];
 
 window.onload = insertAllItems();   
 
@@ -17,10 +16,9 @@ addFromModal.addEventListener('click', function(e) {
         e.preventDefault();
     } else {
         contentArray.push(modalContent.value);
-        dateArray.push(getDateTime()[0]);
-        timeArray.push(getDateTime()[1]);
+        dateTimeArray.push(getDateTime());
 
-        setStorage(contentArray, dateArray, timeArray);
+        setStorage(contentArray, dateTimeArray);
         insertNewItem();
 
         modal.style.display = 'none';
@@ -43,15 +41,13 @@ addButton.addEventListener('click', function() {
 
 deleteButton.addEventListener('click', function() {
     localStorage.removeItem('content');
-    localStorage.removeItem('date');
-    localStorage.removeItem('time');
+    localStorage.removeItem('datetime');
     content.innerHTML = '';
 })
 
-function setStorage(content, date, time) {
+function setStorage(content, dateTime) {
     localStorage.setItem('content', JSON.stringify(content));
-    localStorage.setItem('date', JSON.stringify(date));
-    localStorage.setItem('time', JSON.stringify(time));
+    localStorage.setItem('datetime', JSON.stringify(dateTime));
 }
 
 function insertNewItem() {
@@ -60,7 +56,7 @@ function insertNewItem() {
                     <p>
                         ${contentArray[contentArray.length - 1]}
                     </p>
-                    <time>${getDateTime()[0] + ", " + getDateTime()[1]}</time>
+                    <time>${getDateTime()}</time>
                 </div>
             </div>`);
 }
@@ -68,16 +64,14 @@ function insertNewItem() {
 function insertAllItems() {
     if (localStorage.length !== 0) {
         contentArray = JSON.parse(localStorage.getItem('content'));
-        dateArray = JSON.parse(localStorage.getItem('date'));
-        timeArray = JSON.parse(localStorage.getItem('time'));
-        
+        dateTimeArray = JSON.parse(localStorage.getItem('datetime'));        
         for (let i = 0; i < contentArray.length; i++) {
             content.insertAdjacentHTML('beforeend', `<div class="ballon">
                     <div class="content">
                         <p>
                             ${contentArray[i]}
                         </p>
-                        <time>${dateArray[i] + ", " + timeArray[i]}</time>
+                        <time>${dateTimeArray[i]}</time>
                     </div>
                 </div>`);
         }
@@ -87,5 +81,5 @@ function insertAllItems() {
 function getDateTime() {
     const now = new Date();
 
-    return [now.toLocaleDateString('pt-BR'), now.toLocaleTimeString('pt-BR')];
+    return now.toLocaleString('pt-BR');
 }
